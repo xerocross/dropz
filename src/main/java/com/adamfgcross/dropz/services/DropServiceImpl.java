@@ -7,6 +7,7 @@ import com.adamfgcross.dropz.repositories.UserRepository;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -37,5 +38,11 @@ public class DropServiceImpl implements DropService {
             throw new IllegalArgumentException();
         }
 
+    }
+
+    @Override
+    public List<Drop> getDrops(String dropText, String username) {
+        List<Drop> drops = dropRepository.findByTextContains(dropText);
+        return drops;
     }
 }

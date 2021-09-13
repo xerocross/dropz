@@ -2,10 +2,9 @@ package com.adamfgcross.dropz.controllers;
 
 import com.adamfgcross.dropz.entities.User;
 import com.adamfgcross.dropz.repositories.UserRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
@@ -25,6 +24,19 @@ public class UserController {
             return ResponseEntity.ok("found user");
         } else {
             return ResponseEntity.ok("no user found");
+        }
+    }
+
+    @PostMapping("/user")
+    public ResponseEntity<String> createUser(@RequestParam(value="username") String username) {
+        Optional<User> userOptional = userRepository.findByUsername(username);
+        if (userOptional.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } else {
+            User user = new User();
+            user.setUsername(username);
+            userRepository.save(user);
+            return ResponseEntity.ok("saved");
         }
     }
 }
