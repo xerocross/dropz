@@ -32,6 +32,7 @@ public class DropServiceImpl implements DropService {
             User user = userOptional.get();
             drop.setText(dropText);
             drop.setUser(user);
+            dropRepository.save(drop);
         } else {
             throw new IllegalArgumentException();
         }
