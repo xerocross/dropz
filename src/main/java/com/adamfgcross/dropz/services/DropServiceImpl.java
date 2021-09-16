@@ -41,8 +41,16 @@ public class DropServiceImpl implements DropService {
     }
 
     @Override
-    public List<Drop> getDrops(String dropText, String username) {
-        List<Drop> drops = dropRepository.findByTextContains(dropText);
+    public List<Drop> getDrops(String query, String username) {
+        List<Drop> drops = dropRepository.findByTextContains(query);
         return drops;
+    }
+
+    @Override
+    public List<Drop> queryDrops(String query, String username) {
+
+
+
+        return null;
     }
 }

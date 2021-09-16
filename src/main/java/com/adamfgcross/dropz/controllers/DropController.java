@@ -34,10 +34,21 @@ public class DropController {
     }
 
     @GetMapping("/drop")
-    public ResponseEntity<List<Drop>> getDrop(@RequestParam(value = "droptext", defaultValue = "") String droptext,
+    public ResponseEntity<List<Drop>> getDrop(@RequestParam(value = "query", defaultValue = "") String query,
                                              @RequestParam(value="username") String username) {
         try {
-            List<Drop> drops = dropService.getDrops(droptext, username);
+            List<Drop> drops = dropService.getDrops(query, username);
+            return ResponseEntity.ok(drops);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/query")
+    public ResponseEntity<List<Drop>> queryDrops(@RequestParam(value = "query", defaultValue = "") String query,
+                                              @RequestParam(value="username") String username) {
+        try {
+            List<Drop> drops = dropService.queryDrops(query, username);
             return ResponseEntity.ok(drops);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

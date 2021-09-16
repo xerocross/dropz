@@ -10,4 +10,6 @@ public interface DropService {
     public void saveDrop(String dropText, String username);
 
     public List<Drop> getDrops(String dropText, String username);
+
+    public List<Drop> queryDrops(String query, String username);
 }
