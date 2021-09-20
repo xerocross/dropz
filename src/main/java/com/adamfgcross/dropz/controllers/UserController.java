@@ -2,6 +2,8 @@ package com.adamfgcross.dropz.controllers;
 
 import com.adamfgcross.dropz.entities.User;
 import com.adamfgcross.dropz.repositories.UserRepository;
+import com.adamfgcross.dropz.services.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,9 +14,12 @@ import java.util.Optional;
 public class UserController {
 
     private final UserRepository userRepository;
+    private final UserService userService;
 
-    public UserController(UserRepository userRepository) {
+    @Autowired
+    public UserController(UserRepository userRepository, UserService userService) {
         this.userRepository = userRepository;
+        this.userService = userService;
     }
 
     @GetMapping("/user")
@@ -24,6 +29,17 @@ public class UserController {
             return ResponseEntity.ok("found user");
         } else {
             return ResponseEntity.ok("no user found");
+        }
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<String> login(@RequestParam(value="username") String username,
+                                        @RequestParam(value="password") String password) {
+        Boolean userCheck = userService.checkUser(username, password);
+        if (userCheck) {
+            return ResponseEntity.ok("login successful");
+        } else {
+            return ResponseEntity.ok("login unsuccessful");
         }
     }
 
